@@ -60,13 +60,14 @@ class MainActivity : AppCompatActivity(), OnDeleteClickListener {
 
             Toast.makeText(applicationContext, R.string.saved, Toast.LENGTH_LONG).show()
 
-        } else {
+        } else { //else if con request code che mi viene da edit
             Toast.makeText(applicationContext, R.string.not_saved, Toast.LENGTH_LONG).show()
         }
     }
 
     companion object {
         private const val NEW_NOTE_ACTIVITY_REQUEST_CODE = 1
+        public const val UPDATE_NOTE_ACTIVITY_REQUEST_CODE = 2
     }
 
     override fun onDeleteDefinition(definition: Definition, position: Int) {

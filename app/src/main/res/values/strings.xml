@@ -5,5 +5,6 @@
     <string name="definition_string">Definizione</string>
     <string name="saved">saved</string>
     <string name="not_saved">not saved</string>
+    <string name="update">update</string>
 
 </resources>

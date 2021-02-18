@@ -1,6 +1,8 @@
 package com.example.definizioniconroom
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,6 +44,13 @@ class DefinitionListAdapter(private val context: Context, private val listener: 
         fun setListeners(position: Int){ //un oggetto di classe interna vede le variabili della esterna
             itemView.deleteImg.setOnClickListener {
                 listener.onDeleteDefinition(definitionList[position],position)
+            }
+            itemView.editImg.setOnClickListener{ // prende i parametri per l'update
+                val intent = Intent(context,UpdateActivity::class.java)
+                intent.putExtra("definizione",definitionList[position].description)
+                intent.putExtra("parola", definitionList[position].word)
+                intent.putExtra("id", definitionList[position].id)
+                (context as Activity).startActivityForResult(intent,MainActivity.UPDATE_NOTE_ACTIVITY_REQUEST_CODE)
             }
         } // viene assegnato come ascoltatore del click sull'img l'oggetto che è stato passato al costruttore dell'adapter col nome listener
     }
