@@ -11,6 +11,12 @@ interface DefinitionDao {
     fun add(def:Definition)
 
     @get:Query("SELECT * FROM   definizioni")
-    val allDefinition:LiveData<List<Definition>>
+    val allDefinitions:LiveData<List<Definition>>
 
 }
+
+// viene creata l'interfaccia DAO data access object per il db
+// che definisce per l'appunto i metodi di accesso al database
+// l'insert di un oggetto di tipo Definition (la entity)
+// la query sulla tabella "definizioni" descritta dalla entity
+// viene creato un oggetto liveData formato da una lista di entità definition

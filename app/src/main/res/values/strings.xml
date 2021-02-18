@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Definizioni con Room</string>
+    <string name="save">Save</string>
+    <string name="word_string">Parola</string>
+    <string name="definition_string">Definizione</string>
+    <string name="saved">saved</string>
+    <string name="not_saved">not saved</string>
+
 </resources>
