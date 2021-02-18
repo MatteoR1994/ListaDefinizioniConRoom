@@ -7,6 +7,7 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -16,7 +17,7 @@ import kotlinx.android.synthetic.main.content_main.*
 import java.util.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OnDeleteClickListener {
 
     private lateinit var definitionViewModel: DefinitionViewModel
 
@@ -24,8 +25,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
    //     setSupportActionBar(toolbar)
-
-        val definitionListAdapter = DefinitionListAdapter(this) //crea adapter passa contesto
+// passo all'adapter l'activity 2 volte: la 1 come contesto, la 2 come oggetto di tipo ondeleteclicklistener
+        val definitionListAdapter = DefinitionListAdapter(this, this) //crea adapter passa contesto
         recyclerview.adapter = definitionListAdapter // assegno adapter alla recycleview
         recyclerview.layoutManager = LinearLayoutManager(this)
 
@@ -36,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 
         definitionViewModel = ViewModelProviders.of(this).get(DefinitionViewModel::class.java)
 
-        definitionViewModel.allDefinitions.observe(this, Observer { definitions ->
+        definitionViewModel.allDefinitions.observe(this, Observer { definitions -> //quando alldefinitions cambia resetta adapter
             definitions?.let {
                 definitionListAdapter.setDefinitions(definitions)
             }
@@ -66,6 +67,11 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val NEW_NOTE_ACTIVITY_REQUEST_CODE = 1
+    }
+
+    override fun onDeleteDefinition(definition: Definition, position: Int) {
+        definitionViewModel.delete(definition)
+        definitionViewModel.readAll()
     }
 }
 

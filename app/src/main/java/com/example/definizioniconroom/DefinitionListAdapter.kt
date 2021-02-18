@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.list_item.view.*
 
-class DefinitionListAdapter(private val context: Context) :
+class DefinitionListAdapter(private val context: Context, private val listener: OnDeleteClickListener) :
     RecyclerView.Adapter<DefinitionListAdapter.DefinitionViewHolder>() {
 
     private var definitionList: List<Definition> = mutableListOf()
@@ -20,6 +20,7 @@ class DefinitionListAdapter(private val context: Context) :
     override fun onBindViewHolder(holder: DefinitionViewHolder, position: Int) { // prende i dati nella x posizione della lista
         val definition = definitionList[position] //li passa nella x view della recycleview
         holder.setData(definition.word, definition.description, position) //bind=legare,vincolare
+        holder.setListeners(position)
     }
 
     override fun getItemCount(): Int = definitionList.size
@@ -38,5 +39,10 @@ class DefinitionListAdapter(private val context: Context) :
             itemView.definitionText.text = dDefinition
             this.pos = position
         }
+        fun setListeners(position: Int){ //un oggetto di classe interna vede le variabili della esterna
+            itemView.deleteImg.setOnClickListener {
+                listener.onDeleteDefinition(definitionList[position],position)
+            }
+        } // viene assegnato come ascoltatore del click sull'img l'oggetto che è stato passato al costruttore dell'adapter col nome listener
     }
 }

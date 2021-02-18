@@ -1,14 +1,18 @@
 package com.example.definizioniconroom
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface DefinitionDao {
     @Insert
     fun add(def:Definition)
+
+    @Delete
+    fun delete(def:Definition)
+
+    @Update
+    fun update(def:Definition)
 
     @get:Query("SELECT * FROM   definizioni")
     val allDefinitions:LiveData<List<Definition>>
