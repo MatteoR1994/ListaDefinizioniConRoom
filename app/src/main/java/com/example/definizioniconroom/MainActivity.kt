@@ -1,13 +1,9 @@
 package com.example.definizioniconroom
 
-
-
-
 import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -44,30 +40,45 @@ class MainActivity : AppCompatActivity(), OnDeleteClickListener {
         })
     }
 
-    //override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) { //prende resultIntent di newdefinition
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-// request code è x accertarsi che il risultato sia della richiesta che ho chiesto io e non per un'altra
-        if (requestCode == NEW_NOTE_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK) { // e controllo sia ok
 
-            val id = UUID.randomUUID().toString() //crea stringa random, ma con unicità garantita, come ID
+        if (requestCode == NEW_NOTE_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+
+            val id = UUID.randomUUID().toString()
             val word = data?.getStringExtra(NewDefinitionActivity.NEW_WORD)
             val wordDefinition = data?.getStringExtra(NewDefinitionActivity.NEW_DEFINITION)
 
-            val definition = Definition(id, word!!, wordDefinition!!) //invocazione costruttore che crea oggetto e ritorna indirizzo
+            val definition = Definition(id, word!!, wordDefinition!!)
 
-            definitionViewModel.add(definition) //metodo viewmodel che chiama room per aggiungere la definizione sul DB
+            definitionViewModel.add(definition)
 
             Toast.makeText(applicationContext, R.string.saved, Toast.LENGTH_LONG).show()
 
-        } else { //else if con request code che mi viene da edit
+        } else {
             Toast.makeText(applicationContext, R.string.not_saved, Toast.LENGTH_LONG).show()
+        }
+
+        if (requestCode == UPDATE_NOTE_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+
+            val id2 = data?.getStringExtra("id_passato")
+            val word2 = data?.getStringExtra("nuova_parola")
+            val wordDefinition2 = data?.getStringExtra("nuova_definizione")
+
+            val definition2 = Definition(id2!!, word2!!, wordDefinition2!!)
+
+            definitionViewModel.update(definition2)
+
+            Toast.makeText(applicationContext, "Aggiornato con successo.", Toast.LENGTH_LONG).show()
+
+        } else {
+            Toast.makeText(applicationContext, "Problemi durante l'aggiornamento.", Toast.LENGTH_LONG).show()
         }
     }
 
     companion object {
         private const val NEW_NOTE_ACTIVITY_REQUEST_CODE = 1
-        public const val UPDATE_NOTE_ACTIVITY_REQUEST_CODE = 2
+        const val UPDATE_NOTE_ACTIVITY_REQUEST_CODE = 2
     }
 
     override fun onDeleteDefinition(definition: Definition, position: Int) {
