@@ -43,36 +43,39 @@ class MainActivity : AppCompatActivity(), OnDeleteClickListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == NEW_NOTE_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == NEW_NOTE_ACTIVITY_REQUEST_CODE) {
+            if(resultCode == Activity.RESULT_OK) {
 
-            val id = UUID.randomUUID().toString()
-            val word = data?.getStringExtra(NewDefinitionActivity.NEW_WORD)
-            val wordDefinition = data?.getStringExtra(NewDefinitionActivity.NEW_DEFINITION)
+                val id = UUID.randomUUID().toString()
+                val word = data?.getStringExtra(NewDefinitionActivity.NEW_WORD)
+                val wordDefinition = data?.getStringExtra(NewDefinitionActivity.NEW_DEFINITION)
 
-            val definition = Definition(id, word!!, wordDefinition!!)
+                val definition = Definition(id, word!!, wordDefinition!!)
 
-            definitionViewModel.add(definition)
+                definitionViewModel.add(definition)
 
-            Toast.makeText(applicationContext, R.string.saved, Toast.LENGTH_LONG).show()
-
-        } else {
-            Toast.makeText(applicationContext, R.string.not_saved, Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, R.string.saved, Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(applicationContext, R.string.not_saved, Toast.LENGTH_LONG).show()
+            }
         }
 
-        if (requestCode == UPDATE_NOTE_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == UPDATE_NOTE_ACTIVITY_REQUEST_CODE) {
+            if(resultCode == Activity.RESULT_OK) {
 
-            val id2 = data?.getStringExtra("id_passato")
-            val word2 = data?.getStringExtra("nuova_parola")
-            val wordDefinition2 = data?.getStringExtra("nuova_definizione")
+                val id2 = data?.getStringExtra("id_passato")
+                val word2 = data?.getStringExtra("nuova_parola")
+                val wordDefinition2 = data?.getStringExtra("nuova_definizione")
 
-            val definition2 = Definition(id2!!, word2!!, wordDefinition2!!)
+                val definition2 = Definition(id2!!, word2!!, wordDefinition2!!)
 
-            definitionViewModel.update(definition2)
+                definitionViewModel.update(definition2)
 
-            Toast.makeText(applicationContext, "Aggiornato con successo.", Toast.LENGTH_LONG).show()
-
-        } else {
-            Toast.makeText(applicationContext, "Problemi durante l'aggiornamento.", Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, "Aggiornato con successo.", Toast.LENGTH_LONG)
+                    .show()
+            } else {
+                Toast.makeText(applicationContext, "Problemi durante l'aggiornamento.", Toast.LENGTH_LONG).show()
+            }
         }
     }
 
